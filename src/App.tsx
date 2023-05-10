@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./@types/window.d";
 import "./App.css";
 import { Overlay } from "./components/Overlay";
@@ -34,7 +34,7 @@ function App() {
       })
       .catch((e) => {
         // promise is rejected when the user doesn't have or allow mic access
-        console.log("mic not open");
+        console.log("mic not open: ", e);
       });
   };
 
