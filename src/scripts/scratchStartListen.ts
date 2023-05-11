@@ -7,18 +7,15 @@ export const scratchStartListen = async () => {
   const audioCtx = new (window.AudioContext ||
     window.webkitAudioContext ||
     window.mozAudioContext)();
-  // AnalyserNode
-  const analyserNode = audioCtx.createAnalyser();
-  analyserNode.fftSize = 2048;
-
-  const biquadFilter = audioCtx.createBiquadFilter();
-  biquadFilter.type = "lowpass";
 
   const simplePitchShiftNode = await createWorkletNode(
     audioCtx,
     "simple-pitch-shift-processor",
     simplePitchShiftProcessor
   );
+
+  const biquadFilter = audioCtx.createBiquadFilter();
+  biquadFilter.type = "lowpass";
 
   if (!navigator.mediaDevices) {
     throw new Error("getUserMedia is not implemented in this browser");
@@ -31,8 +28,7 @@ export const scratchStartListen = async () => {
       const streamAudioSourceNode = audioCtx.createMediaStreamSource(stream);
       streamAudioSourceNode.connect(simplePitchShiftNode);
       simplePitchShiftNode.connect(biquadFilter);
-      biquadFilter.connect(analyserNode);
-      analyserNode.connect(audioCtx.destination);
+      biquadFilter.connect(audioCtx.destination);
     })
     .catch((err) => {
       console.log("The following getUserMedia error occured: " + err);

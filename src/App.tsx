@@ -13,11 +13,7 @@ function App() {
   const startListen = () => {
     const meter = new Tone.Meter();
     const pitchShift = new Tone.PitchShift(pitchValue).toDestination();
-    const mic = new Tone.UserMedia().connect(meter);
-    if (!pitchShift) {
-      return;
-    }
-    mic.connect(pitchShift);
+    const mic = new Tone.UserMedia().connect(meter).connect(pitchShift);
     mic
       .open()
       .then(() => {
