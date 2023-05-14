@@ -1,2 +1,2 @@
 # web-voice-changer
-web voice changer sample by Web Audio API
+web voice changer sample by web api and tone.js
